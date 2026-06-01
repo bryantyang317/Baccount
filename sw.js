@@ -1,11 +1,12 @@
-const CACHE_NAME = "expense-pwa-v1";
+const CACHE_NAME = "expense-pwa-v2";
+const BASE_PATH = new URL("./", self.location).pathname;
 const APP_SHELL = [
-  "/",
-  "/manifest.webmanifest",
-  "/pwa-icon.svg",
-  "/pwa-icon-192.png",
-  "/pwa-icon-512.png",
-  "/apple-touch-icon.png"
+  BASE_PATH,
+  `${BASE_PATH}manifest.webmanifest`,
+  `${BASE_PATH}pwa-icon.svg`,
+  `${BASE_PATH}pwa-icon-192.png`,
+  `${BASE_PATH}pwa-icon-512.png`,
+  `${BASE_PATH}apple-touch-icon.png`
 ];
 
 self.addEventListener("install", event => {
@@ -35,6 +36,6 @@ self.addEventListener("fetch", event => {
         caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
         return response;
       })
-      .catch(() => caches.match(request).then(cached => cached || caches.match("/")))
+      .catch(() => caches.match(request).then(cached => cached || caches.match(BASE_PATH)))
   );
 });
